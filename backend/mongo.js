@@ -5,10 +5,8 @@ if (process.argv.length<3) {
   process.exit(1)
 }
 
-const password = process.argv[2]
 
-const url =
-  `mongodb+srv://hvgdunkley:pfsA6w1sntIAi9L8@cluster0.ehauteh.mongodb.net/noteApp?retryWrites=true&w=majority`
+
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
