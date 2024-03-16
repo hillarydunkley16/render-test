@@ -53,21 +53,25 @@ app.delete('/api/notes/:id', (request, response, next) => {
 })
 //toggling the importance of a note 
 app.put('/api/notes/:id', (request, response, next) => {
-  const body = request.body
+  const {content, important} = request.body
 
   const note = {
     content: body.content,
     important: body.important,
   }
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
-    .then(updatedNote => {
-      response.json(updatedNote)
-    })
-    .catch(error => next(error))
+  Note.findByIdAndUpdate(
+    request.params.id, 
+    {content, important}, 
+    {new: true, runValidators: true, context: 'query'}
+  )
+  .then(updatedNote => {
+    response.json(updatedNote)
+  } )
+  .catch(error => next(error))
 })
 //add a new note to the system
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   if (body.content === undefined) {
